@@ -2,7 +2,7 @@
 
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     {% block meta %}
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta charset="utf-8">
@@ -28,13 +28,13 @@
     {% endblock %}
    
     <title>The Salon {% block extra_title %}{% endblock %}</title>
-  </head>
-  <body>
+</head>
+<body style="padding-top: 50px;">
     <header class="container-fluid fixed-top">
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">The Salon</a>
-        <!-- Add more navbar items here if needed -->
-      </nav>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">The Shop</a>
+            <!-- Add more navbar items here if needed -->
+        </nav>
     </header>
 
     {% if messages %}
@@ -54,5 +54,5 @@
     {% block postloadjs %}
     {% endblock %}
    
-  </body>
+</body>
 </html>
