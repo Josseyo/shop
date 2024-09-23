@@ -20,7 +20,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-5!=rfqr%gnru#ln3e+lpg1ih%gcs=pb7^tl0(ghoitrwzt9vq7"
+SECRET_KEY = (
+    "django-insecure-5!=rfqr%gnru#ln3e+lpg1ih%gcs=pb7^tl0(ghoitrwzt9vq7"
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -42,8 +44,12 @@ INSTALLED_APPS = [
     "home",
     "products",
     "bag",
-    "checkout"
+    "checkout",
+
+    # Other
+    'crispy_forms',
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -57,6 +63,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "the_shop.urls"
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 TEMPLATES = [
     {
@@ -72,19 +80,23 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                'bag.contexts.bag_contents',
-
+                "django.template.context_processors.media",
+                "bag.contexts.bag_contents",
+            ],
+            "builtins": [
+                "crispy_forms.templatetags.crispy_forms_tags",
+                "crispy_forms.templatetags.crispy_forms_field",
             ],
         },
     },
 ]
 
-MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     "django.contrib.auth.backends.ModelBackend",
-
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 )
@@ -140,11 +152,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+STATIC_URL = "/static/"
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -152,4 +164,3 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 FREE_DELIVERY_THRESHOLD = 50
 STANDARD_DELIVERY_PERCENTAGE = 10
-
