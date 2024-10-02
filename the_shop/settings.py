@@ -24,23 +24,29 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', get_random_secret_key())
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",") if os.environ.get("ALLOWED_HOSTS") else []
+ALLOWED_HOSTS = (
+    os.environ.get("ALLOWED_HOSTS", "").split(",")
+    if os.environ.get("ALLOWED_HOSTS")
+    else []
+)
 # ALLOWED_HOSTS.append("theshop-8565bb64956d.herokuapp.com", "8000-josseyo-shop-xejsc525slm.ws.codeinstitute-ide.net")
 
-ALLOWED_HOSTS.extend([
-    "theshop-8565bb64956d.herokuapp.com",
-    "8000-josseyo-shop-xejsc525slm.ws.codeinstitute-ide.net"
-])
+ALLOWED_HOSTS.extend(
+    [
+        "theshop-8565bb64956d.herokuapp.com",
+        "8000-josseyo-shop-xejsc525slm.ws.codeinstitute-ide.net",
+    ]
+)
 
 # if not DEBUG:
 #    ALLOWED_HOSTS.append("theshop-8565bb64956d.herokuapp.com")
 
-DEBUG = True
+DEBUG = False
 
 # Application definition
 INSTALLED_APPS = [
@@ -162,7 +168,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 # STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static"),
+STATIC_ROOT = (os.path.join(BASE_DIR, "static"),)
 
 
 MEDIA_URL = "/media/"
