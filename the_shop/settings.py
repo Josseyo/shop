@@ -14,9 +14,6 @@ import os
 from django.core.management.utils import get_random_secret_key
 import dj_database_url
 
-# if os.path.isfile("env.py"):
-#     import env
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -27,26 +24,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = (
-    os.environ.get("ALLOWED_HOSTS", "").split(",")
-    if os.environ.get("ALLOWED_HOSTS")
-    else []
-)
-# ALLOWED_HOSTS.append("theshop-8565bb64956d.herokuapp.com", "8000-josseyo-shop-xejsc525slm.ws.codeinstitute-ide.net")
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",") if os.environ.get("ALLOWED_HOSTS") else []
 
-ALLOWED_HOSTS.extend(
-    [
-        "theshop-8565bb64956d.herokuapp.com",
-        "8000-josseyo-shop-xejsc525slm.ws.codeinstitute-ide.net",
-    ]
-)
-
-# if not DEBUG:
-#    ALLOWED_HOSTS.append("theshop-8565bb64956d.herokuapp.com")
-
-DEBUG = True
+# Additional allowed hosts for development and production
+ALLOWED_HOSTS.extend([
+    "theshop-8565bb64956d.herokuapp.com",
+    "8000-josseyo-shop-xejsc525slm.ws.codeinstitute-ide.net",
+])
 
 # Application definition
 INSTALLED_APPS = [
@@ -66,7 +52,7 @@ INSTALLED_APPS = [
     "checkout",
     "profiles",
     "crispy_forms",
-    "storages"
+    "storages",
 ]
 
 MIDDLEWARE = [
@@ -130,17 +116,12 @@ LOGIN_REDIRECT_URL = "/"
 WSGI_APPLICATION = "the_shop.wsgi.application"
 
 # Database
-if "DATABASE_URL" in os.environ:
-    DATABASES = {
-        "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+DATABASES = {
+    "default": dj_database_url.parse(os.environ.get("DATABASE_URL")) if "DATABASE_URL" in os.environ else {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-        }
-    }
+}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -166,18 +147,14 @@ USE_L10N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-
-# https://docs.djangoproject.com/en/3.0/howto/static-files/
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-
 if 'USE_AWS' in os.environ:
-    # Bucket Config
+    # AWS S3 Bucket Config
     AWS_STORAGE_BUCKET_NAME = 'theshop-8565bb64956d'
     AWS_S3_REGION_NAME = 'us-east-1'
     AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
@@ -206,6 +183,7 @@ STANDARD_DELIVERY_PERCENTAGE = 10
 STRIPE_CURRENCY = "usd"
 STRIPE_PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY", "")
 STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY", "")
+
 STRIPE_WH_SECRET = os.getenv("STRIPE_WH_SECRET", "")
 DEFAULT_FROM_EMAIL = "theshop@example.com"
 
